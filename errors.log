@@ -1,0 +1,48 @@
+[29-May-2024 18:03:58 Europe/Berlin] SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+[29-May-2024 18:05:17 Europe/Berlin] SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+[29-May-2024 18:05:27 Europe/Berlin] SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+[29-May-2024 18:07:16 Europe/Berlin] SQLSTATE[HY093]: Invalid parameter number: parameter was not defined
+[01-Jun-2024 09:24:25 Europe/Berlin] SQLSTATE[HY093]: Invalid parameter number: number of bound variables does not match number of tokens
+[01-Jun-2024 10:25:12 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:12 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:12 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:12 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:13 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:13 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:13 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:13 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:20 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:20 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:20 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:20 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:20 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:25:21 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:29:49 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:29:49 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:29:49 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:29:49 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:29:51 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:29:51 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:29:51 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:29:51 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:29:56 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:29:56 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 81
+[01-Jun-2024 10:29:56 Europe/Berlin] PHP Warning:  Undefined variable $result in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 10:29:56 Europe/Berlin] PHP Warning:  Trying to access array offset on value of type null in C:\xampp\htdocs\FantaGP\home.php on line 89
+[01-Jun-2024 11:07:53 Europe/Berlin] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'fantagp.squadra' doesn't exist
+[01-Jun-2024 11:08:49 Europe/Berlin] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'fantagp.squadra' doesn't exist
+[01-Jun-2024 11:11:12 Europe/Berlin] SQLSTATE[42S02]: Base table or view not found: 1146 Table 'fantagp.squadra' doesn't exist
