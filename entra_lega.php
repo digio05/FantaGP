@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($_POST["code"]) || empty($_POST["name"])) {
         echo '<script>';
         echo 'alert("Per favore, completa tutti i campi.");';
-        echo 'window.location.href = "home.php";';
+        echo 'window.location.href = "creation.php";';
         echo '</script>';
         exit();
     }
@@ -63,14 +63,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }else{
                 echo '<script>';
                 echo 'alert("Utente già registrato alla lega.");';
-                echo 'window.location.href = "home.php";';
+                echo 'window.location.href = "creation.php";';
                 echo '</script>';
                 exit();
             }
         } else {
             echo '<script>';
             echo 'alert("Nome della squadra già presente nella lega, per favore, se ne scelga un altro.");';
-            echo 'window.location.href = "home.php";';
+            echo 'window.location.href = "creation.php";';
             echo '</script>';
             exit();
         }
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     } else {
         echo '<script>';
         echo 'alert("Lega non esistente, per favore inserire il codice corretto.");';
-        echo 'window.location.href = "home.php";';
+        echo 'window.location.href = "creation.php";';
         echo '</script>';
         exit();
     }

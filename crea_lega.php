@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (empty($_POST["name_lega"]) || empty($_POST["name_squad"])) {
         echo '<script>';
         echo 'alert("Per favore, completa tutti i campi.");';
-        echo 'window.location.href = "home.html";';
+        echo 'window.location.href = "creation.php";';
         echo '</script>';
         exit();
     }
@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         exit();
     } else {
         echo 'alert("Nome della lega già presente, per favore inseritene uno nuovo");';
-        header("Location: home.php");
+        header("Location: creation.php");
     }
     
 } else {
