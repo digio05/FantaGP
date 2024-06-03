@@ -19,29 +19,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $sql = "SELECT * FROM Utente WHERE User = :user AND Password = :password";
-    $sth = $dbh->prepare($sql);
-    
+    $sth = $dbh->prepare($sql); //Questa query viene utilizzata per verificare che le credenziali siano corrette
     $user = $_POST["user"];
     $password = $_POST["password"];
-
     $sth->bindParam(":user", $user, PDO::PARAM_STR);
     $sth->bindParam(":password", $password, PDO::PARAM_STR);
-
     $sth->execute();
-
     $num_rows = $sth->rowCount();
 
     if ($num_rows == 1) {
-        // Avvia la sessione
         session_start();
-
-        // Imposta i dati della sessione
         $_SESSION['user'] = $user;
-
-        // Imposta il cookie della sessione
         setcookie(session_name(), session_id(), time() + $session_lifetime, $cookie_path, $cookie_domain, $cookie_secure, $cookie_httponly);
-
-        // Reindirizza l'utente alla pagina home
         header("Location: home.php");
         exit();
     } else {

@@ -24,39 +24,32 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $sth = $dbh->prepare($sql);
     $sth->bindParam(":nameL", $nome_lega, PDO::PARAM_STR);
     $sth->execute();
-    $Numero = $sth->fetchAll(PDO::FETCH_ASSOC);
     
     if ($sth->rowCount() != 0){
         $sql = "INSERT INTO `Lega` (`NomeLega`) VALUES (:nome)";
         $sth = $dbh->prepare($sql);
         $sth->bindParam(":nome", $nome_lega, PDO::PARAM_STR);
-        $sth->execute();
+        $sth->execute(); //creazione della lega 
 
         $sql = "SELECT Id FROM Utente WHERE User = :nome";
         $sth = $dbh->prepare($sql);
         $sth->bindParam(":nome", $cookie_name, PDO::PARAM_STR);
         $sth->execute();
-        $IdUser = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $IdUser = $sth->fetchAll(PDO::FETCH_ASSOC); //resituzione del id dell'utente
 
         $sql = "SELECT Id FROM lega WHERE NomeLega = :nome";
         $sth = $dbh->prepare($sql);
         $sth->bindParam(":nome", $nome_lega, PDO::PARAM_STR);
         $sth->execute();
-        $IdLega = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $IdLega = $sth->fetchAll(PDO::FETCH_ASSOC);//resituzione del id della lega
 
-        $sql = "INSERT INTO `Membro` (CodUtente, CodLega) VALUES (:user, :lega)";
-        $sth = $dbh->prepare($sql);
-        $sth->bindParam(":user", $IdUser[0]["Id"], PDO::PARAM_STR);
-        $sth->bindParam(":lega", $IdLega[0]["Id"], PDO::PARAM_INT);
-        $sth->execute();
-
-        $sql = "INSERT INTO `Squadra` (CodUtente, CodLega, NomeSquadra) VALUES (:user, :lega, :nameS)";
+        $sql = "INSERT INTO `Squadra` (CodUtente, CodLega, Nome) VALUES (:user, :lega, :nameS)";
         $sth = $dbh->prepare($sql);
         $sth->bindParam(":user", $IdUser[0]["Id"], PDO::PARAM_STR);
         $sth->bindParam(":lega", $IdLega[0]["Id"], PDO::PARAM_INT);
         $sth->bindParam(":nameS", $nome_squadra, PDO::PARAM_STR);
         $sth->execute();
-        $_SESSION["lega"] = $IdLega[0]["Id"];
+        $_SESSION["lega"] = $IdLega[0]["Id"]; //creazione della squadra e salvataggio in sessione dell' ID
         header("Location: home.php"); 
         exit();
     } else {

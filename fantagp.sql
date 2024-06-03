@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Creato il: Giu 02, 2024 alle 09:31
+-- Creato il: Giu 03, 2024 alle 15:03
 -- Versione del server: 10.4.22-MariaDB
 -- Versione PHP: 8.1.2
 
@@ -24,6 +24,18 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struttura della tabella `gara`
+--
+
+CREATE TABLE `gara` (
+  `Anno` int(11) NOT NULL,
+  `Luogo` varchar(50) NOT NULL,
+  `Nome` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struttura della tabella `lega`
 --
 
@@ -37,26 +49,27 @@ CREATE TABLE `lega` (
 --
 
 INSERT INTO `lega` (`Id`, `NomeLega`) VALUES
-(29, 'Formula1Test');
+(54, 'adad'),
+(44, 'FerrariVince'),
+(49, 'FerrariVinced'),
+(50, 'FerrariVinceds'),
+(51, 'FerrariVincedsd'),
+(55, 'gdgfdg'),
+(57, 'sasso'),
+(52, 'sdfsdf'),
+(53, 'ssss');
 
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `membro`
+-- Struttura della tabella `partecipazione`
 --
 
-CREATE TABLE `membro` (
-  `CodUtente` int(11) NOT NULL,
-  `CodLega` int(11) NOT NULL
+CREATE TABLE `partecipazione` (
+  `CodUtente` int(11) DEFAULT NULL,
+  `CodLega` int(11) NOT NULL,
+  `CodPilota` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dump dei dati per la tabella `membro`
---
-
-INSERT INTO `membro` (`CodUtente`, `CodLega`) VALUES
-(18, 29),
-(25, 29);
 
 -- --------------------------------------------------------
 
@@ -89,7 +102,7 @@ INSERT INTO `pilota` (`Numero`, `Nome`, `Cognome`, `Punti`) VALUES
 (22, 'Yuki', 'Tsunoda', 19),
 (23, 'Alex', 'Albon', 2),
 (24, 'Guanyu', 'Zhou', 0),
-(27, 'Nico', 'Hülkenberg', 6),
+(27, 'Nico', 'HÃ¼lkenberg', 6),
 (31, 'Esteban', 'Ocon', 1),
 (38, 'Oliver', 'Bearman', 6),
 (44, 'Lewis', 'Hamilton', 42),
@@ -105,22 +118,38 @@ INSERT INTO `pilota` (`Numero`, `Nome`, `Cognome`, `Punti`) VALUES
 --
 
 CREATE TABLE `squadra` (
-  `CodUtente` int(11) NOT NULL,
-  `CodLega` int(11) NOT NULL,
-  `NomeSquadra` varchar(50) DEFAULT NULL,
+  `Nome` varchar(100) DEFAULT NULL,
+  `Monete` int(11) DEFAULT 100,
   `Punteggio` int(11) DEFAULT NULL,
-  `CodPilota1` int(11) DEFAULT NULL,
-  `CodPilota2` int(11) DEFAULT NULL,
-  `CodPilota3` int(11) DEFAULT NULL
+  `CodUtente` int(11) NOT NULL,
+  `CodLega` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `squadra`
 --
 
-INSERT INTO `squadra` (`CodUtente`, `CodLega`, `NomeSquadra`, `Punteggio`, `CodPilota1`, `CodPilota2`, `CodPilota3`) VALUES
-(18, 29, 'DigioRS', NULL, NULL, NULL, NULL),
-(25, 29, 'Catoz', NULL, NULL, NULL, NULL);
+INSERT INTO `squadra` (`Nome`, `Monete`, `Punteggio`, `CodUtente`, `CodLega`) VALUES
+('DigioRSds', 100, NULL, 18, 50),
+('DigioRSdsd', 100, NULL, 18, 51),
+('sdfsf', 100, NULL, 18, 52),
+('dsfsdfsewe', 100, NULL, 25, 50),
+('dasda', 100, NULL, 25, 53),
+('qwdwad', 100, NULL, 25, 54),
+('dfgdfg', 100, NULL, 25, 55);
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `statistiche`
+--
+
+CREATE TABLE `statistiche` (
+  `Punti` int(11) DEFAULT NULL,
+  `CodAnno` int(11) DEFAULT NULL,
+  `CodLuogo` varchar(50) DEFAULT NULL,
+  `CodPilota` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -134,21 +163,27 @@ CREATE TABLE `utente` (
   `Cognome` varchar(50) NOT NULL,
   `Email` varchar(100) NOT NULL,
   `Password` varchar(50) DEFAULT NULL,
-  `User` varchar(50) NOT NULL,
-  `Monete` int(11) DEFAULT 100
+  `User` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `utente`
 --
 
-INSERT INTO `utente` (`Id`, `Nome`, `Cognome`, `Email`, `Password`, `User`, `Monete`) VALUES
-(18, 'Fabio', 'Di Giovanni', 'fabiodigiovanni77@gmail.com', 'fabio777', 'Digio', 100),
-(25, 'Filippo', 'Catozzi', 'cato@email.com', 'fabio777', 'Fillo_Cato', 50);
+INSERT INTO `utente` (`Id`, `Nome`, `Cognome`, `Email`, `Password`, `User`) VALUES
+(18, 'Fabio', 'Di Giovanni', 'fabiodigiovanni77@gmail.com', 'fabio', 'Digio'),
+(25, 'Filippo', 'Catozzi', 'cato@email.com', 'cato', 'Fillo_Cato'),
+(26, 'Utente', 'utente', 'utente@gmail.com', 'utente', 'utente');
 
 --
 -- Indici per le tabelle scaricate
 --
+
+--
+-- Indici per le tabelle `gara`
+--
+ALTER TABLE `gara`
+  ADD PRIMARY KEY (`Luogo`,`Anno`);
 
 --
 -- Indici per le tabelle `lega`
@@ -158,11 +193,11 @@ ALTER TABLE `lega`
   ADD UNIQUE KEY `NomeSquadra` (`NomeLega`);
 
 --
--- Indici per le tabelle `membro`
+-- Indici per le tabelle `partecipazione`
 --
-ALTER TABLE `membro`
-  ADD PRIMARY KEY (`CodUtente`,`CodLega`),
-  ADD KEY `CodLega` (`CodLega`);
+ALTER TABLE `partecipazione`
+  ADD PRIMARY KEY (`CodPilota`,`CodLega`),
+  ADD KEY `CodUtente` (`CodUtente`,`CodLega`);
 
 --
 -- Indici per le tabelle `pilota`
@@ -175,10 +210,14 @@ ALTER TABLE `pilota`
 --
 ALTER TABLE `squadra`
   ADD PRIMARY KEY (`CodUtente`,`CodLega`),
-  ADD KEY `CodLega` (`CodLega`),
-  ADD KEY `CodPilota1` (`CodPilota1`),
-  ADD KEY `CodPilota2` (`CodPilota2`),
-  ADD KEY `CodPilota3` (`CodPilota3`);
+  ADD KEY `CodLega` (`CodLega`);
+
+--
+-- Indici per le tabelle `statistiche`
+--
+ALTER TABLE `statistiche`
+  ADD KEY `CodLuogo` (`CodLuogo`,`CodAnno`),
+  ADD KEY `CodPilota` (`CodPilota`);
 
 --
 -- Indici per le tabelle `utente`
@@ -196,34 +235,38 @@ ALTER TABLE `utente`
 -- AUTO_INCREMENT per la tabella `lega`
 --
 ALTER TABLE `lega`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
 
 --
 -- AUTO_INCREMENT per la tabella `utente`
 --
 ALTER TABLE `utente`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Limiti per le tabelle scaricate
 --
 
 --
--- Limiti per la tabella `membro`
+-- Limiti per la tabella `partecipazione`
 --
-ALTER TABLE `membro`
-  ADD CONSTRAINT `membro_ibfk_1` FOREIGN KEY (`CodUtente`) REFERENCES `utente` (`Id`),
-  ADD CONSTRAINT `membro_ibfk_2` FOREIGN KEY (`CodLega`) REFERENCES `lega` (`Id`);
+ALTER TABLE `partecipazione`
+  ADD CONSTRAINT `partecipazione_ibfk_1` FOREIGN KEY (`CodUtente`,`CodLega`) REFERENCES `squadra` (`CodUtente`, `CodLega`),
+  ADD CONSTRAINT `partecipazione_ibfk_2` FOREIGN KEY (`CodPilota`) REFERENCES `pilota` (`Numero`);
 
 --
 -- Limiti per la tabella `squadra`
 --
 ALTER TABLE `squadra`
   ADD CONSTRAINT `squadra_ibfk_1` FOREIGN KEY (`CodUtente`) REFERENCES `utente` (`Id`),
-  ADD CONSTRAINT `squadra_ibfk_2` FOREIGN KEY (`CodLega`) REFERENCES `lega` (`Id`),
-  ADD CONSTRAINT `squadra_ibfk_3` FOREIGN KEY (`CodPilota1`) REFERENCES `pilota` (`Numero`),
-  ADD CONSTRAINT `squadra_ibfk_4` FOREIGN KEY (`CodPilota2`) REFERENCES `pilota` (`Numero`),
-  ADD CONSTRAINT `squadra_ibfk_5` FOREIGN KEY (`CodPilota3`) REFERENCES `pilota` (`Numero`);
+  ADD CONSTRAINT `squadra_ibfk_2` FOREIGN KEY (`CodLega`) REFERENCES `lega` (`Id`);
+
+--
+-- Limiti per la tabella `statistiche`
+--
+ALTER TABLE `statistiche`
+  ADD CONSTRAINT `statistiche_ibfk_1` FOREIGN KEY (`CodLuogo`,`CodAnno`) REFERENCES `gara` (`Luogo`, `Anno`),
+  ADD CONSTRAINT `statistiche_ibfk_2` FOREIGN KEY (`CodPilota`) REFERENCES `pilota` (`Numero`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

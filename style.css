@@ -83,20 +83,14 @@ input:-webkit-autofill:active {
     background: #c4151c;
 }
 
-
-
-
 #motto {
     text-align: center;
     margin-top: 3%;
     position: relative;
 }
-
-
 /*Login Div*/
 
 .login-box {
-  
     margin-bottom: 20px;
     position: absolute  ;
     top: 60%;

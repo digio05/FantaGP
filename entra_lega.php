@@ -1,6 +1,7 @@
 
 <?php
 require "shared/connection.php";
+require "function.php";
 session_start();
 // Impostazioni dei cookie per la sessione
 $session_lifetime = 3600; // Durata della sessione in secondi (1 ora)
@@ -29,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     
 
     if ($sth->rowCount() != 0){
-        $sql = "SELECT NomeSquadra FROM Squadra WHERE NomeSquadra = :nome";
+        $sql = "SELECT Nome FROM Squadra WHERE Nome = :nome";
         $sth = $dbh->prepare($sql);
         $sth->bindParam(":nome", $nome_squadra, PDO::PARAM_STR);
         $sth->execute();
@@ -41,27 +42,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $sth->execute();
             $IdUser = $sth->fetchAll(PDO::FETCH_ASSOC);
 
-            
-            $sql = "SELECT CodUtente FROM Membro WHERE CodUtente = :user";
+            $sql = "SELECT CodUtente FROM Squadra WHERE CodUtente = :nome AND CodLega = :code";
             $sth = $dbh->prepare($sql);
-            $sth->bindParam(":user", $IdUser, PDO::PARAM_INT);
+            $sth->bindParam(":nome", $IdUser[0]["Id"], PDO::PARAM_STR);
+            $sth->bindParam(":code", $CodLega, PDO::PARAM_INT);
             $sth->execute();
+            $IdUser = $sth->fetchAll(PDO::FETCH_ASSOC);
 
             if ($sth->rowCount() == 0){
-                $sql = "INSERT INTO `Membro` (CodUtente, CodLega) VALUES (:user, :lega)";
-                $sth = $dbh->prepare($sql);
-                $sth->bindParam(":user", $IdUser[0]["Id"], PDO::PARAM_STR);
-                $sth->bindParam(":lega", $CodLega, PDO::PARAM_INT);
-                $sth->execute();
-
-                $sql = "INSERT INTO `Squadra` (CodUtente, CodLega, NomeSquadra) VALUES (:user, :lega, :nameS)";
+                $IdUser = selectUserId($cookie_name);
+                $sql = "INSERT INTO `Squadra` (CodUtente, CodLega, Nome) VALUES (:user, :lega, :nameS)";
                 $sth = $dbh->prepare($sql);
                 $sth->bindParam(":user", $IdUser[0]["Id"], PDO::PARAM_STR);
                 $sth->bindParam(":lega", $CodLega, PDO::PARAM_INT);
                 $sth->bindParam(":nameS", $nome_squadra, PDO::PARAM_STR);
                 $sth->execute();
-
                 $_SESSION["lega"] = $CodLega;
+                header("Location: home.php"); 
+                exit();
             }else{
                 echo '<script>';
                 echo 'alert("Utente già registrato alla lega.");';
