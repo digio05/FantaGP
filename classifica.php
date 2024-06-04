@@ -17,7 +17,7 @@ if(isset($_SESSION['user'])) {
             WHERE CodUtente = :cookie_name AND CodLega = :lega";
     $sth = $dbh->prepare($sql);
     $idUser = selectUserId($cookie_name);
-    $sth->bindParam(":cookie_name", $idUser[0]["Id"], PDO::PARAM_STR);
+    $sth->bindParam(":cookie_name", $idUser, PDO::PARAM_STR);
     $sth->bindParam(":lega", $_SESSION["lega"], PDO::PARAM_STR);
     $sth->execute();
     $count = $sth->rowCount();
@@ -60,7 +60,7 @@ if(isset($_SESSION['user'])) {
                   Classifiche
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Classifica Piloti</a></li>
+                <li><a class="dropdown-item" href="classifica_piloti.php">Classifica Piloti</a></li>
                 <li><a class="dropdown-item" href="#">Classifica Costruttori</a></li>
                 <li><a class="dropdown-item" href="classifica.php">Classifica in tempo reale</a></li>
               </ul>
@@ -81,7 +81,7 @@ if(isset($_SESSION['user'])) {
                       $sql = "SELECT Nome FROM Squadra WHERE CodLega = :lega AND CodUtente = :user";
                       $sth = $dbh->prepare($sql);
                       $sth->bindParam(":lega", $_SESSION["lega"], PDO::PARAM_INT);
-                      $sth->bindParam(":user", $idUser[0]["Id"], PDO::PARAM_INT);
+                      $sth->bindParam(":user", $idUser, PDO::PARAM_INT);
                       $sth->execute();
                       $result = $sth->fetch(PDO::FETCH_ASSOC);
                       if ($sth->rowCount() > 0) {

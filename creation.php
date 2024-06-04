@@ -2,7 +2,7 @@
 // Avvia la sessione
 session_start();
 require "shared/connection.php";
-require "shared/log.php";
+//require "shared/log.php";
 require "function.php";
 if (!empty($_SESSION['user'])) {
     $cookie_name = $_SESSION['user'];
@@ -18,21 +18,11 @@ if (!empty($_SESSION['user'])) {
             WHERE CodUtente = :cookie_name AND CodLega = :lega";
     $sth = $dbh->prepare($sql);
     $idUser = selectUserId($cookie_name);
-    $sth->bindParam(":cookie_name", $idUser[0]["Id"], PDO::PARAM_STR);
+    $sth->bindParam(":cookie_name", $idUser, PDO::PARAM_STR);
     $sth->bindParam(":lega", $_SESSION["lega"], PDO::PARAM_STR);
     $sth->execute();
     $count = $sth->rowCount();
     $monete = $sth->fetch(PDO::FETCH_ASSOC);
-
-    /*$sql = "SELECT COUNT(CodUtente) AS 'Numero' FROM Pilota WHERE CodUtente = :cookie_name";
-    $sth = $dbh->prepare($sql);
-    $sth->bindParam(":cookie_name", $cookie_name, PDO::PARAM_STR);
-    $sth->execute();
-    $numeroPiloti = $sth->fetch(PDO::FETCH_ASSOC);*/ //Conta il numero di piloti, e verifica se sono 3 o meno
-    $sql = "SELECT Pilota.* FROM Pilota";
-    $sth = $dbh->prepare($sql);
-    $sth->execute();
-    $piloti = $sth->fetchAll(PDO::FETCH_ASSOC);
     setcookie($cookie_name, $cookie_value, $cookie_lifetime, $cookie_path, $cookie_domain, $cookie_secure, $cookie_httponly);
 } else {
     header("Location: login.html");
@@ -91,7 +81,7 @@ if (!empty($_SESSION['user'])) {
                       $sql = "SELECT Nome FROM Squadra WHERE CodLega = :lega AND CodUtente = :user";
                       $sth = $dbh->prepare($sql);
                       $sth->bindParam(":lega", $_SESSION["lega"], PDO::PARAM_INT);
-                      $sth->bindParam(":user", $idUser[0]["Id"], PDO::PARAM_INT);
+                      $sth->bindParam(":user", $idUser, PDO::PARAM_INT);
                       $sth->execute();
                       $result = $sth->fetch(PDO::FETCH_ASSOC);
                       if ($sth->rowCount() > 0) {

@@ -868,3 +868,8 @@ background-color: black!important;
   color: #000;
 }
 
+
+caption {
+  display: table-caption !important; 
+  text-align: center;
+}

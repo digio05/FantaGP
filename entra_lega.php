@@ -44,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $sql = "SELECT CodUtente FROM Squadra WHERE CodUtente = :nome AND CodLega = :code";
             $sth = $dbh->prepare($sql);
-            $sth->bindParam(":nome", $IdUser[0]["Id"], PDO::PARAM_STR);
+            $sth->bindParam(":nome", $IdUser, PDO::PARAM_STR);
             $sth->bindParam(":code", $CodLega, PDO::PARAM_INT);
             $sth->execute();
             $IdUser = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -53,12 +53,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $IdUser = selectUserId($cookie_name);
                 $sql = "INSERT INTO `Squadra` (CodUtente, CodLega, Nome) VALUES (:user, :lega, :nameS)";
                 $sth = $dbh->prepare($sql);
-                $sth->bindParam(":user", $IdUser[0]["Id"], PDO::PARAM_STR);
+                $sth->bindParam(":user", $IdUser, PDO::PARAM_STR);
                 $sth->bindParam(":lega", $CodLega, PDO::PARAM_INT);
                 $sth->bindParam(":nameS", $nome_squadra, PDO::PARAM_STR);
                 $sth->execute();
                 $_SESSION["lega"] = $CodLega;
-                header("Location: home.php"); 
+                header("Location: lega.php"); 
                 exit();
             }else{
                 echo '<script>';

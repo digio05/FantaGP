@@ -7,7 +7,7 @@ function selectUserId($cookie_name) {
     $sth->execute();
     $IdUser = $sth->fetchAll(PDO::FETCH_ASSOC); //resituzione del id dell'utente
 
-    return $IdUser;
+    return $IdUser[0]['Id'];
 }
 
 ?>

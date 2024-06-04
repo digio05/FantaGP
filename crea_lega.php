@@ -1,5 +1,6 @@
 <?php
 require "shared/connection.php";
+require "function.php";
 session_start();
 // Impostazioni dei cookie per la sessione
 $session_lifetime = 3600; // Durata della sessione in secondi (1 ora)
@@ -31,26 +32,35 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $sth->bindParam(":nome", $nome_lega, PDO::PARAM_STR);
         $sth->execute(); //creazione della lega 
 
-        $sql = "SELECT Id FROM Utente WHERE User = :nome";
-        $sth = $dbh->prepare($sql);
-        $sth->bindParam(":nome", $cookie_name, PDO::PARAM_STR);
-        $sth->execute();
-        $IdUser = $sth->fetchAll(PDO::FETCH_ASSOC); //resituzione del id dell'utente
+        $IdUser = selectUserId($cookie_name);
 
         $sql = "SELECT Id FROM lega WHERE NomeLega = :nome";
         $sth = $dbh->prepare($sql);
         $sth->bindParam(":nome", $nome_lega, PDO::PARAM_STR);
         $sth->execute();
-        $IdLega = $sth->fetchAll(PDO::FETCH_ASSOC);//resituzione del id della lega
+        $IdLega = $sth->fetch(PDO::FETCH_ASSOC);//resituzione del id della lega
 
         $sql = "INSERT INTO `Squadra` (CodUtente, CodLega, Nome) VALUES (:user, :lega, :nameS)";
         $sth = $dbh->prepare($sql);
-        $sth->bindParam(":user", $IdUser[0]["Id"], PDO::PARAM_STR);
-        $sth->bindParam(":lega", $IdLega[0]["Id"], PDO::PARAM_INT);
+        $sth->bindParam(":user", $IdUser, PDO::PARAM_STR);
+        $sth->bindParam(":lega", $IdLega["Id"], PDO::PARAM_INT);
         $sth->bindParam(":nameS", $nome_squadra, PDO::PARAM_STR);
         $sth->execute();
-        $_SESSION["lega"] = $IdLega[0]["Id"]; //creazione della squadra e salvataggio in sessione dell' ID
-        header("Location: home.php"); 
+
+        $sql = "SELECT Numero FROM Pilota";
+        $std = $dbh->prepare($sql);
+        $std->execute();
+        $piloti = $std->fetchAll(PDO::FETCH_ASSOC);
+
+        for ($i = 0; $i < $std->rowCount(); $i++) {
+            $sql = "INSERT INTO Partecipazione (CodLega, CodPilota) VALUES (:lega, :num)";
+            $sth = $dbh->prepare($sql);
+            $sth->bindParam(":lega", $IdLega["Id"], PDO::PARAM_INT);
+            $sth->bindParam(":num", $piloti[$i]["Numero"], PDO::PARAM_INT);
+            $sth->execute();
+        }
+        $_SESSION["lega"] = $IdLega["Id"]; //creazione della squadra e salvataggio in sessione dell' ID
+        header("Location: lega.php"); 
         exit();
     } else {
         echo 'alert("Nome della lega già presente, per favore inseritene uno nuovo");';
@@ -62,3 +72,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 ?>
+
+
+

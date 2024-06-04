@@ -23,7 +23,6 @@ if(isset($_SESSION['user'])) {
     $count = $sth->rowCount();
     $monete = $sth->fetch(PDO::FETCH_ASSOC);
 
-
     // Imposta il cookie
     setcookie($cookie_name, $cookie_value, $cookie_lifetime, $cookie_path, $cookie_domain, $cookie_secure, $cookie_httponly);
 } 
@@ -35,7 +34,7 @@ if(isset($_SESSION['user'])) {
     <head>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="style.css" type="text/css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     
         <style>
           tr th td{
@@ -130,99 +129,50 @@ if(isset($_SESSION['user'])) {
           ?>
       </div>
     </nav>
-    <div class="top5-container">
-      <?php
-      $sql = "SELECT Luogo, Anno
-              FROM Gara
-              ORDER BY Data DESC
-              LIMIT 5";
-      $sth = $dbh->prepare($sql);
-      $sth->execute();
-      $lastRace = $sth->fetchAll(PDO::FETCH_ASSOC);
-      $count = $sth->rowCount();
+    <main>
+        <div class="compra-piloti">
+            <?php
+            $sql = "SELECT Numero, Nome, Cognome, Costo FROM Pilota";
+            $sth = $dbh->prepare($sql);
+            $sth->execute();
+            $piloti = $sth->fetchAll(PDO::FETCH_ASSOC);
+            echo '<table  border="1" style="float:left; display:block; margin-right: 30px;">';
+            echo '<tr><th>Nome</th><th>Cognome</th><th>Costo</th></tr>';
+            // Stampa i risultati in una tabella HTML
+            foreach ($piloti as $row) {
+                echo '<tr>';
+                echo '<td>' . $row['Nome'] . '</td>';
+                echo '<td>' . $row['Cognome'] . '</td>';
+                echo '<td>' . $row['Costo'] . '</td>';
+                $sql = "SELECT CodUtente FROM Partecipazione WHERE CodLega = :lega AND :cod = CodPilota";
+                $sth = $dbh->prepare($sql);
+                $sth->bindParam(":lega", $_SESSION["lega"], PDO::PARAM_INT);
+                $sth->bindParam(":cod", $row['Numero'], PDO::PARAM_INT);
+                $sth->execute();
+                $cod = $sth->fetch(PDO::FETCH_ASSOC);
+                if ($cod['CodUtente'] === NULL) {
+                    $sql = "SELECT COUNT(CodLega) AS Conto FROM Partecipazione WHERE CodUtente = :user AND CodLega = :lega";
+                    $std = $dbh->prepare($sql);
+                    $CodUtente = selectUserId($cookie_name);
+                    $std->bindParam(":user", $CodUtente, PDO::PARAM_INT);
+                    $std->bindParam(":lega", $_SESSION["lega"], PDO::PARAM_INT);
+                    $std->execute();
+                    $conto = $std->fetch(PDO::FETCH_ASSOC);
+                    if ($conto['Conto'] < 3) {
+                        echo '<td><a href="compra.php?id='. $row['Numero'] .'"><button>compra</button></a></td>';
+                    } else {
+                        echo '<td><a href="compra.php?id='. $row['Numero'] .'"><button disabled>compra</button></a></td>';
+                    }
+                } else {
+                    echo '<td><p>venduto</p></td>';
+                }
 
-      
-
-      for ($i = 0; $i < $count; $i++) {
-          $sql = "SELECT Classifica.Posizione, Pilota.Nome AS NomeP, Pilota.Cognome, Gara.Nome
-                  FROM Pilota
-                  INNER JOIN Classifica ON Classifica.CodPilota = Pilota.Numero
-                  INNER JOIN Gara ON Gara.Luogo = Classifica.CodLuogo AND Gara.Anno = Classifica.CodAnno
-                  WHERE Gara.Luogo = :luogo AND Gara.anno = :anno
-                  ORDER BY Classifica.Posizione, Pilota.Nome, Pilota.Cognome, Gara.Nome
-                  LIMIT 5";
-          $sth = $dbh->prepare($sql);
-          $sth->bindParam(":luogo", $lastRace[$i]["Luogo"], PDO::PARAM_STR);
-          $sth->bindParam(":anno", $lastRace[$i]["Anno"], PDO::PARAM_INT);
-          $sth->execute();
-          $result[$i] = $sth->fetchAll(PDO::FETCH_ASSOC);
-          echo '<table border="1" style="float:left; display:block; margin-right: 30px;">';
-          echo '<caption>' . $result[$i][0]["Nome"] . '</caption>';
-          echo '<tr><th>Posizione</th><th>Nome Pilota</th><th>Cognome Pilota</th></tr>';
-          
-          // Stampa i risultati in una tabella HTML
-          foreach ($result[$i] as $row) {
-              echo '<tr>';
-              echo '<td>' . $row['Posizione'] . '</td>';
-              echo '<td>' . $row['NomeP'] . '</td>';
-              echo '<td>' . $row['Cognome'] . '</td>';
-              echo '</tr>';
-          }
-          echo '</table>'; 
-      }
-      ?>
-
-    </div>
-    <div class="container-classifiche">
-      <p>Classifica Piloti</p>
-    <?php
-    $sql = "SELECT  Nome AS NomeP, Cognome, Punti
-            FROM Pilota
-            ORDER BY Punti DESC, NomeP, Cognome";
-    $sth = $dbh->prepare($sql);
-    $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    echo '<table  border="1" style="float:left; display:block; margin-right: 30px;">';
-    echo '<caption>Classifica Piloti</caption>';
-    echo '<tr><th>Posizione</th><th>Nome Pilota</th><th>Cognome Pilota</th><th>Punti</th></tr>';
-    // Stampa i risultati in una tabella HTML
-    $i = 1;
-    foreach ($result as $row) {
-      echo '<tr>';
-      echo '<td>' . $i. '</td>';
-      echo '<td>' . $row['NomeP'] . '</td>';
-      echo '<td>' . $row['Cognome'] . '</td>';
-      echo '<td>' . $row['Punti'] . '</td>';
-      echo '</tr>';
-      $i++;
-    }
-    echo '</table>'; 
-
-        $sql = "SELECT  Nome AS NomeP, Cognome, FantaPunti
-        FROM Pilota
-        ORDER BY FantaPunti DESC, NomeP, Cognome";
-    $sth = $dbh->prepare($sql);
-    $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    echo '<table border="1" style="float:left; display:block; margin-right: 30px;">';
-    echo '<caption>Classifica FantaPiloti</caption>';
-    echo '<tr><th>Posizione</th><th>Nome Pilota</th><th>Cognome Pilota</th><th>FantaPunti</th></tr>';
-
-    // Stampa i risultati in una tabella HTML
-    $i = 1;
-    foreach ($result as $row) {
-    echo '<tr>';
-    echo '<td>' . $i. '</td>';
-    echo '<td>' . $row['NomeP'] . '</td>';
-    echo '<td>' . $row['Cognome'] . '</td>';
-    echo '<td>' . $row['FantaPunti'] . '</td>';
-    echo '</tr>';
-    $i++;
-    }
-    echo '</table>'; 
-    ?>
-    </div>
+                echo '</tr>';
+            }
+            ?>
+        </div>
+    </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-  
+
     </body>
 </html>

@@ -1,0 +1,15 @@
+[04-Jun-2024 11:44:39 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: ExceptionHandler(): Argument #1 ($exception) must be of type Exception, Error given in C:\xampp\htdocs\FantaGP\shared\log.php:7
+Stack trace:
+#0 [internal function]: ExceptionHandler(Object(Error))
+#1 {main}
+  thrown in C:\xampp\htdocs\FantaGP\shared\log.php on line 7
+[04-Jun-2024 11:44:46 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: ExceptionHandler(): Argument #1 ($exception) must be of type Exception, Error given in C:\xampp\htdocs\FantaGP\shared\log.php:7
+Stack trace:
+#0 [internal function]: ExceptionHandler(Object(Error))
+#1 {main}
+  thrown in C:\xampp\htdocs\FantaGP\shared\log.php on line 7
+[04-Jun-2024 11:44:47 Europe/Berlin] PHP Fatal error:  Uncaught TypeError: ExceptionHandler(): Argument #1 ($exception) must be of type Exception, Error given in C:\xampp\htdocs\FantaGP\shared\log.php:7
+Stack trace:
+#0 [internal function]: ExceptionHandler(Object(Error))
+#1 {main}
+  thrown in C:\xampp\htdocs\FantaGP\shared\log.php on line 7

@@ -17,7 +17,7 @@ if(isset($_SESSION['user'])) {
             WHERE CodUtente = :cookie_name AND CodLega = :lega";
     $sth = $dbh->prepare($sql);
     $idUser = selectUserId($cookie_name);
-    $sth->bindParam(":cookie_name", $idUser, PDO::PARAM_STR);
+    $sth->bindParam(":cookie_name", $idUser[0]["Id"], PDO::PARAM_STR);
     $sth->bindParam(":lega", $_SESSION["lega"], PDO::PARAM_STR);
     $sth->execute();
     $count = $sth->rowCount();
@@ -35,14 +35,8 @@ if(isset($_SESSION['user'])) {
     <head>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="style.css" type="text/css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-        <style>
-          tr th td{
-            border: solid white 1px;
-          }
-        </style>
-      </head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
@@ -87,7 +81,7 @@ if(isset($_SESSION['user'])) {
                       $sql = "SELECT Nome FROM Squadra WHERE CodLega = :lega AND CodUtente = :user";
                       $sth = $dbh->prepare($sql);
                       $sth->bindParam(":lega", $_SESSION["lega"], PDO::PARAM_INT);
-                      $sth->bindParam(":user", $idUser, PDO::PARAM_INT);
+                      $sth->bindParam(":user", $idUser[0]["Id"], PDO::PARAM_INT);
                       $sth->execute();
                       $result = $sth->fetch(PDO::FETCH_ASSOC);
                       if ($sth->rowCount() > 0) {
@@ -130,99 +124,9 @@ if(isset($_SESSION['user'])) {
           ?>
       </div>
     </nav>
-    <div class="top5-container">
-      <?php
-      $sql = "SELECT Luogo, Anno
-              FROM Gara
-              ORDER BY Data DESC
-              LIMIT 5";
-      $sth = $dbh->prepare($sql);
-      $sth->execute();
-      $lastRace = $sth->fetchAll(PDO::FETCH_ASSOC);
-      $count = $sth->rowCount();
-
-      
-
-      for ($i = 0; $i < $count; $i++) {
-          $sql = "SELECT Classifica.Posizione, Pilota.Nome AS NomeP, Pilota.Cognome, Gara.Nome
-                  FROM Pilota
-                  INNER JOIN Classifica ON Classifica.CodPilota = Pilota.Numero
-                  INNER JOIN Gara ON Gara.Luogo = Classifica.CodLuogo AND Gara.Anno = Classifica.CodAnno
-                  WHERE Gara.Luogo = :luogo AND Gara.anno = :anno
-                  ORDER BY Classifica.Posizione, Pilota.Nome, Pilota.Cognome, Gara.Nome
-                  LIMIT 5";
-          $sth = $dbh->prepare($sql);
-          $sth->bindParam(":luogo", $lastRace[$i]["Luogo"], PDO::PARAM_STR);
-          $sth->bindParam(":anno", $lastRace[$i]["Anno"], PDO::PARAM_INT);
-          $sth->execute();
-          $result[$i] = $sth->fetchAll(PDO::FETCH_ASSOC);
-          echo '<table border="1" style="float:left; display:block; margin-right: 30px;">';
-          echo '<caption>' . $result[$i][0]["Nome"] . '</caption>';
-          echo '<tr><th>Posizione</th><th>Nome Pilota</th><th>Cognome Pilota</th></tr>';
-          
-          // Stampa i risultati in una tabella HTML
-          foreach ($result[$i] as $row) {
-              echo '<tr>';
-              echo '<td>' . $row['Posizione'] . '</td>';
-              echo '<td>' . $row['NomeP'] . '</td>';
-              echo '<td>' . $row['Cognome'] . '</td>';
-              echo '</tr>';
-          }
-          echo '</table>'; 
-      }
-      ?>
-
-    </div>
-    <div class="container-classifiche">
-      <p>Classifica Piloti</p>
-    <?php
-    $sql = "SELECT  Nome AS NomeP, Cognome, Punti
-            FROM Pilota
-            ORDER BY Punti DESC, NomeP, Cognome";
-    $sth = $dbh->prepare($sql);
-    $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    echo '<table  border="1" style="float:left; display:block; margin-right: 30px;">';
-    echo '<caption>Classifica Piloti</caption>';
-    echo '<tr><th>Posizione</th><th>Nome Pilota</th><th>Cognome Pilota</th><th>Punti</th></tr>';
-    // Stampa i risultati in una tabella HTML
-    $i = 1;
-    foreach ($result as $row) {
-      echo '<tr>';
-      echo '<td>' . $i. '</td>';
-      echo '<td>' . $row['NomeP'] . '</td>';
-      echo '<td>' . $row['Cognome'] . '</td>';
-      echo '<td>' . $row['Punti'] . '</td>';
-      echo '</tr>';
-      $i++;
-    }
-    echo '</table>'; 
-
-        $sql = "SELECT  Nome AS NomeP, Cognome, FantaPunti
-        FROM Pilota
-        ORDER BY FantaPunti DESC, NomeP, Cognome";
-    $sth = $dbh->prepare($sql);
-    $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    echo '<table border="1" style="float:left; display:block; margin-right: 30px;">';
-    echo '<caption>Classifica FantaPiloti</caption>';
-    echo '<tr><th>Posizione</th><th>Nome Pilota</th><th>Cognome Pilota</th><th>FantaPunti</th></tr>';
-
-    // Stampa i risultati in una tabella HTML
-    $i = 1;
-    foreach ($result as $row) {
-    echo '<tr>';
-    echo '<td>' . $i. '</td>';
-    echo '<td>' . $row['NomeP'] . '</td>';
-    echo '<td>' . $row['Cognome'] . '</td>';
-    echo '<td>' . $row['FantaPunti'] . '</td>';
-    echo '</tr>';
-    $i++;
-    }
-    echo '</table>'; 
-    ?>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <iframe style="margin-top: 10px;"src="https://www.formula1.com/en/results.html/2024/drivers.html" width="100%" height="1200px">
+        </iframe>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   
     </body>
 </html>
