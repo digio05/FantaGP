@@ -56,7 +56,7 @@ if(isset($_SESSION['user'])) {
                   <a class="nav-link active" aria-current="page" href="home.php">Home</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="le_tue_leghe.php">Le tue leghe</a>
+                  <a class="nav-link" href="#">Le tue leghe</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="creation.php">Crea o unisciti</a>
@@ -130,98 +130,6 @@ if(isset($_SESSION['user'])) {
           ?>
       </div>
     </nav>
-    <div class="top5-container">
-      <?php
-      $sql = "SELECT Luogo, Anno
-              FROM Gara
-              ORDER BY Data DESC
-              LIMIT 5";
-      $sth = $dbh->prepare($sql);
-      $sth->execute();
-      $lastRace = $sth->fetchAll(PDO::FETCH_ASSOC);
-      $count = $sth->rowCount();
-
-      
-
-      for ($i = 0; $i < $count; $i++) {
-          $sql = "SELECT Classifica.Posizione, Pilota.Nome AS NomeP, Pilota.Cognome, Gara.Nome
-                  FROM Pilota
-                  INNER JOIN Classifica ON Classifica.CodPilota = Pilota.Numero
-                  INNER JOIN Gara ON Gara.Luogo = Classifica.CodLuogo AND Gara.Anno = Classifica.CodAnno
-                  WHERE Gara.Luogo = :luogo AND Gara.anno = :anno
-                  ORDER BY Classifica.Posizione, Pilota.Nome, Pilota.Cognome, Gara.Nome
-                  LIMIT 5";
-          $sth = $dbh->prepare($sql);
-          $sth->bindParam(":luogo", $lastRace[$i]["Luogo"], PDO::PARAM_STR);
-          $sth->bindParam(":anno", $lastRace[$i]["Anno"], PDO::PARAM_INT);
-          $sth->execute();
-          $result[$i] = $sth->fetchAll(PDO::FETCH_ASSOC);
-          echo '<table border="1" style="float:left; display:block; margin-right: 30px;">';
-          echo '<caption>' . $result[$i][0]["Nome"] . '</caption>';
-          echo '<tr><th>Posizione</th><th>Nome Pilota</th><th>Cognome Pilota</th></tr>';
-          
-          // Stampa i risultati in una tabella HTML
-          foreach ($result[$i] as $row) {
-              echo '<tr>';
-              echo '<td>' . $row['Posizione'] . '</td>';
-              echo '<td>' . $row['NomeP'] . '</td>';
-              echo '<td>' . $row['Cognome'] . '</td>';
-              echo '</tr>';
-          }
-          echo '</table>'; 
-      }
-      ?>
-
-    </div>
-    <div class="container-classifiche">
-      <p>Classifica Piloti</p>
-    <?php
-    $sql = "SELECT  Nome AS NomeP, Cognome, Punti
-            FROM Pilota
-            ORDER BY Punti DESC, NomeP, Cognome";
-    $sth = $dbh->prepare($sql);
-    $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    echo '<table  border="1" style="float:left; display:block; margin-right: 30px;">';
-    echo '<caption>Classifica Piloti</caption>';
-    echo '<tr><th>Posizione</th><th>Nome Pilota</th><th>Cognome Pilota</th><th>Punti</th></tr>';
-    // Stampa i risultati in una tabella HTML
-    $i = 1;
-    foreach ($result as $row) {
-      echo '<tr>';
-      echo '<td>' . $i. '</td>';
-      echo '<td>' . $row['NomeP'] . '</td>';
-      echo '<td>' . $row['Cognome'] . '</td>';
-      echo '<td>' . $row['Punti'] . '</td>';
-      echo '</tr>';
-      $i++;
-    }
-    echo '</table>'; 
-
-        $sql = "SELECT  Nome AS NomeP, Cognome, FantaPunti
-        FROM Pilota
-        ORDER BY FantaPunti DESC, NomeP, Cognome";
-    $sth = $dbh->prepare($sql);
-    $sth->execute();
-    $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-    echo '<table border="1" style="float:left; display:block; margin-right: 30px;">';
-    echo '<caption>Classifica FantaPiloti</caption>';
-    echo '<tr><th>Posizione</th><th>Nome Pilota</th><th>Cognome Pilota</th><th>FantaPunti</th></tr>';
-
-    // Stampa i risultati in una tabella HTML
-    $i = 1;
-    foreach ($result as $row) {
-    echo '<tr>';
-    echo '<td>' . $i. '</td>';
-    echo '<td>' . $row['NomeP'] . '</td>';
-    echo '<td>' . $row['Cognome'] . '</td>';
-    echo '<td>' . $row['FantaPunti'] . '</td>';
-    echo '</tr>';
-    $i++;
-    }
-    echo '</table>'; 
-    ?>
-    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   
     </body>
