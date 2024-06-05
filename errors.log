@@ -13,3 +13,9 @@ Stack trace:
 #0 [internal function]: ExceptionHandler(Object(Error))
 #1 {main}
   thrown in C:\xampp\htdocs\FantaGP\shared\log.php on line 7
+[05-Jun-2024 01:28:02 Europe/Berlin] PHP Warning:  Undefined array key "Monete" in C:\xampp\htdocs\FantaGP\function.php on line 20
+[05-Jun-2024 01:28:04 Europe/Berlin] PHP Warning:  Undefined array key "Monete" in C:\xampp\htdocs\FantaGP\function.php on line 20
+[05-Jun-2024 01:28:04 Europe/Berlin] PHP Warning:  Undefined array key "Monete" in C:\xampp\htdocs\FantaGP\function.php on line 20
+[05-Jun-2024 01:28:04 Europe/Berlin] PHP Warning:  Undefined array key "Monete" in C:\xampp\htdocs\FantaGP\function.php on line 20
+[05-Jun-2024 01:28:04 Europe/Berlin] PHP Warning:  Undefined array key "Monete" in C:\xampp\htdocs\FantaGP\function.php on line 20
+[05-Jun-2024 01:29:40 Europe/Berlin] PHP Warning:  Undefined array key "Squadra" in C:\xampp\htdocs\FantaGP\function.php on line 20

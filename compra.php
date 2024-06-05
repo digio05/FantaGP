@@ -10,12 +10,10 @@ $cookie_secure = false; // Impostare a true se il sito è in HTTPS
 $cookie_httponly = true; // Il cookie è accessibile solo tramite HTTP
 $cookie_name = $_SESSION['user'];
 
-
-
-
 $user = selectUserId($cookie_name);
 $lega = $_SESSION['lega'];
 $pilota = $_GET['id'];
+
 $sql = "SELECT Costo, Monete 
 FROM Squadra 
 INNER JOIN partecipazione ON partecipazione.CodLega = squadra.CodLega
@@ -27,8 +25,7 @@ $sth->bindParam(":lega", $lega, PDO::PARAM_INT);
 $sth->bindParam(":pilota", $pilota, PDO::PARAM_INT);
 $sth->execute();
 $result = $sth->fetchAll(PDO::FETCH_ASSOC);
-echo $result[0]["Costo"];
-echo $result[0]["Monete"];
+
 if ($result[0]["Costo"] <= $result[0]["Monete"]) {
     $sql = "UPDATE Partecipazione SET CodUtente = :cod WHERE CodPilota = :pilota AND CodLega = :lega";
     $sth = $dbh->prepare($sql);

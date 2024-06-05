@@ -2,7 +2,7 @@
 // Avvia la sessione
 session_start();
 require "shared/connection.php";
-//require "shared/log.php";
+require "shared/log.php";
 require "function.php";
 if (!empty($_SESSION['user'])) {
     $cookie_name = $_SESSION['user'];

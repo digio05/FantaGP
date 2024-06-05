@@ -60,7 +60,7 @@ if(isset($_SESSION['user'])) {
                   Classifiche
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="classifica_piloti.php">Classifica Piloti</a></li>
+                <li><a class="dropdown-item" href="classifica_piloti">Classifica Piloti</a></li>
                 <li><a class="dropdown-item" href="#">Classifica Costruttori</a></li>
                 <li><a class="dropdown-item" href="classifica.php">Classifica in tempo reale</a></li>
               </ul>
