@@ -41,5 +41,28 @@ function selectIdLega($nome_lega) {
     return $IdLega["Id"];
 }
 
-
+function countNumberSquad($cookie_name) {
+    $idUser = selectUserId($cookie_name);
+    require "shared/connection.php";
+    $sql = "SELECT COUNT(*) AS Conto
+            FROM Squadra
+            WHERE Squadra.CodUtente = :user";
+    $sth = $dbh->prepare($sql);
+    $sth->bindParam(":user", $idUser, PDO::PARAM_INT);
+    $sth->execute();
+    $NumSquad = $sth->fetch(PDO::FETCH_ASSOC);
+    return $NumSquad["Conto"];
+}
+function selectNomeLega($idUser) {
+    require "shared/connection.php";
+    $sql = "SELECT Nome
+            FROM Lega
+            INNER JOIN Squadra ON Squadra.CodLega = Lega.Id
+            WHERE CodUtente = :user";
+    $sth = $dbh->prepare($sql);
+    $sth->bindParam(":user", $idUser, PDO::PARAM_INT);
+    $sth->execute();
+    $NomiLega = $sth->fetchAll(PDO::FETCH_ASSOC);
+    return $NomiLega;
+}
 ?>

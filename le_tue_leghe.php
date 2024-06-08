@@ -35,14 +35,8 @@ if(isset($_SESSION['user'])) {
     <head>
         <meta charset="UTF-8" />
         <link rel="stylesheet" href="style.css" type="text/css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    
-        <style>
-          tr th td{
-            border: solid white 1px;
-          }
-        </style>
-      </head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
     <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
@@ -66,7 +60,7 @@ if(isset($_SESSION['user'])) {
                   Classifiche
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Classifica Piloti</a></li>
+                <li><a class="dropdown-item" href="classifica_piloti">Classifica Piloti</a></li>
                 <li><a class="dropdown-item" href="#">Classifica Costruttori</a></li>
                 <li><a class="dropdown-item" href="classifica.php">Classifica in tempo reale</a></li>
               </ul>
@@ -83,20 +77,7 @@ if(isset($_SESSION['user'])) {
               <?php
                 if(isset($_SESSION['user'])) {
                     $username = $_SESSION['user'];
-                    if (!empty($_SESSION["lega"]))  {
-                      $sql = "SELECT Nome FROM Squadra WHERE CodLega = :lega AND CodUtente = :user";
-                      $sth = $dbh->prepare($sql);
-                      $sth->bindParam(":lega", $_SESSION["lega"], PDO::PARAM_INT);
-                      $sth->bindParam(":user", $idUser, PDO::PARAM_INT);
-                      $sth->execute();
-                      $result = $sth->fetch(PDO::FETCH_ASSOC);
-                      if ($sth->rowCount() > 0) {
-                        echo '<div class="username">' . $result["Nome"] . "</div>";
-                      }
-                    }
-                    echo '
-                    <div class="user-id">@'.$username.'</div>';
-                    
+                    echo '<div class="user-id">@'.$username.'</div>';
                 } else {
                     header("Location: login.html");
                     exit();
@@ -104,22 +85,14 @@ if(isset($_SESSION['user'])) {
               ?>
               <div class="lable-message">
               <?php 
-              if ($count > 0){
-                echo 'Monete<span class="number-message">';
-                echo $monete['Monete'] . "</span></div>";
-              } else {
-                echo $username;
-                echo "</span></div>";
-              }
+              echo $username;
+              echo "</span></div>";
               ?>
             </div>
           </button>
           <?php
           // Verifica se il nome utente è impostato nella sessione
           if(isset($_SESSION['user'])) {
-            // Recupera il nome utente dalla sessione
-            $username = $_SESSION['user'];
-            // Mostra il nome utente nel bottone di disconnessione
           ?>
           <a href="logout.php"><button class="Btn"><div class="sign"><svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg></div><div class="text">Logout</div></button></a>
           <?php
@@ -130,6 +103,24 @@ if(isset($_SESSION['user'])) {
           ?>
       </div>
     </nav>
+    <?php
+    if (countNumberSquad($cookie_name) > 0) {
+      $nomiLega = selectNomeLega(selectUserId($cookie_name));
+      echo '<div class="leghe-container">';
+      for ($i = 0; $i < countNumberSquad($cookie_name); $i++) {
+        $piloti = selectPiloti()
+        echo '<div class="lega-container">';
+        echo '<h1>'. $nomiLega[$i]["Nome"] .'</h1>';
+        echo '<p>'.  .'</p>'
+        echo '</div>';
+      }
+      echo '</div>';
+    } else {
+      header("Location: creation.php"); 
+      exit();
+    }
+    ?>              
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   
     </body>

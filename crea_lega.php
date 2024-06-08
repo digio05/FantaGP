@@ -57,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $sth->execute();
         }
         $_SESSION["lega"] = $IdLega; //creazione della squadra e salvataggio in sessione dell' ID
-        //header("Location: lega.php"); 
+        header("Location: lega.php"); 
         exit();
     } else {
         echo 'alert("Nome della lega già presente, per favore inseritene uno nuovo");';

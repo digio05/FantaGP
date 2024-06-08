@@ -873,3 +873,9 @@ caption {
   display: table-caption !important; 
   text-align: center;
 }
+
+.lega-container {
+  border: 1px solid red; /* Aggiunge un bordo nero di 1 pixel */
+  padding: 10px; /* Aggiunge un padding di 10px all'interno del contenitore */
+  margin-bottom: 10px; /* Aggiunge uno spazio di 10px sotto il contenitore */
+}

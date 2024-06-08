@@ -38,6 +38,15 @@ if (!empty($_SESSION['user'])) {
 
   </head>
   <body>
+
+  <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="style.css" type="text/css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
           <img class="logo" src="logo.png" width="9%">
@@ -60,7 +69,7 @@ if (!empty($_SESSION['user'])) {
                   Classifiche
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#">Classifica Piloti</a></li>
+                <li><a class="dropdown-item" href="classifica_piloti">Classifica Piloti</a></li>
                 <li><a class="dropdown-item" href="#">Classifica Costruttori</a></li>
                 <li><a class="dropdown-item" href="classifica.php">Classifica in tempo reale</a></li>
               </ul>
@@ -77,20 +86,7 @@ if (!empty($_SESSION['user'])) {
               <?php
                 if(isset($_SESSION['user'])) {
                     $username = $_SESSION['user'];
-                    if (!empty($_SESSION["lega"]))  {
-                      $sql = "SELECT Nome FROM Squadra WHERE CodLega = :lega AND CodUtente = :user";
-                      $sth = $dbh->prepare($sql);
-                      $sth->bindParam(":lega", $_SESSION["lega"], PDO::PARAM_INT);
-                      $sth->bindParam(":user", $idUser, PDO::PARAM_INT);
-                      $sth->execute();
-                      $result = $sth->fetch(PDO::FETCH_ASSOC);
-                      if ($sth->rowCount() > 0) {
-                        echo '<div class="username">' . $result["Nome"] . "</div>";
-                      }
-                    }
-                    echo '
-                    <div class="user-id">@'.$username.'</div>';
-                    
+                    echo '<div class="user-id">@'.$username.'</div>';
                 } else {
                     header("Location: login.html");
                     exit();
@@ -98,22 +94,14 @@ if (!empty($_SESSION['user'])) {
               ?>
               <div class="lable-message">
               <?php 
-              if ($count > 0){
-                echo 'Monete<span class="number-message">';
-                echo $monete['Monete'] . "</span></div>";
-              } else {
-                echo $username;
-                echo "</span></div>";
-              }
+              echo $username;
+              echo "</span></div>";
               ?>
             </div>
           </button>
           <?php
           // Verifica se il nome utente è impostato nella sessione
           if(isset($_SESSION['user'])) {
-            // Recupera il nome utente dalla sessione
-            $username = $_SESSION['user'];
-            // Mostra il nome utente nel bottone di disconnessione
           ?>
           <a href="logout.php"><button class="Btn"><div class="sign"><svg viewBox="0 0 512 512"><path d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z"></path></svg></div><div class="text">Logout</div></button></a>
           <?php
